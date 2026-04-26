@@ -1,0 +1,47 @@
+name: Build Android APK
+
+on:
+  push:
+      branches: [main]
+        workflow_dispatch:
+        
+        jobs:
+          build:
+              runs-on: ubuntu-latest
+                  steps:
+                        - name: Checkout
+                                uses: actions/checkout@v4
+                                
+                                      - name: Setup Node
+                                              uses: actions/setup-node@v4
+                                                      with:
+                                                                node-version: 20
+                                                                
+                                                                      - name: Install dependencies
+                                                                              run: npm install --legacy-peer-deps
+                                                                              
+                                                                                    - name: Setup Java
+                                                                                            uses: actions/setup-java@v4
+                                                                                                    with:
+                                                                                                              distribution: temurin
+                                                                                                                        java-version: 17
+                                                                                                                        
+                                                                                                                              - name: Setup Android SDK
+                                                                                                                                      uses: android-actions/setup-android@v3
+                                                                                                                                      
+                                                                                                                                            - name: Install Expo CLI
+                                                                                                                                                    run: npm install -g expo-cli eas-cli
+                                                                                                                                                    
+                                                                                                                                                          - name: Prebuild
+                                                                                                                                                                  run: npx expo prebuild --platform android --no-install
+                                                                                                                                                                  
+                                                                                                                                                                        - name: Build APK
+                                                                                                                                                                                run: |
+                                                                                                                                                                                          cd android
+                                                                                                                                                                                                    ./gradlew assembleRelease
+                                                                                                                                                                                                    
+                                                                                                                                                                                                          - name: Upload APK
+                                                                                                                                                                                                                  uses: actions/upload-artifact@v4
+                                                                                                                                                                                                                          with:
+                                                                                                                                                                                                                                    name: lyrics-studio-apk
+                                                                                                                                                                                                                                              path: android/app/build/outputs/apk/release/app-release.apk
