@@ -43,4 +43,18 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lyrics-studio-apk
+<<<<<<< HEAD
           path: android/app/build/outputs/apk/release/app-release.apk
+=======
+          path: android/app/build/outputs/apk/release/app-release.apk                                                                                                                                                                  
+                                                                                                                                                                        - name: Build APK
+                                                                                                                                                                                run: |
+                                                                                                                                                                                          cd android
+                                                                                                                                                                                                    ./gradlew assembleRelease
+                                                                                                                                                                                                    
+                                                                                                                                                                                                          - name: Upload APK
+                                                                                                                                                                                                                  uses: actions/upload-artifact@v4
+                                                                                                                                                                                                                          with:
+                                                                                                                                                                                                                                    name: lyrics-studio-apk
+                                                                                                                                                                                                                                              path: android/app/build/outputs/apk/release/app-release.apk
+>>>>>>> 6f4d7a532ab0c7fd48233d2f0a6c600a2811da60
